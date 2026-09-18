@@ -6,10 +6,7 @@
       "type": "dart",
       "request": "launch",
       "cwd": "week6_api_lab",
-      "program": "lib/main.dart",
-      "toolArgs": [
-        "--dart-define-from-file=dart_defines.local.json"
-      ]
+      "program": "lib/main.dart"
     },
     {
       "name": "week6: test_weather_service",

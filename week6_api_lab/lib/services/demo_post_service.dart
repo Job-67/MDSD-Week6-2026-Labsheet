@@ -26,9 +26,8 @@ Future<void> updateDemoPost() async {
     headers: {'Content-Type': 'application/json; charset=UTF-8'},
     body: jsonEncode({
       'id': 1,
-      // TODO: ใส่รหัสและชื่อนักศึกษาของตัวเอง
-      'studentId': 'YOUR_STUDENT_ID',
-      'studentName': 'YOUR_NAME',
+      'studentId': '67030098',
+      'studentName': 'Theeranat Phutiwanich',
       'title': 'แก้ไขข้อมูลด้วย HTTP PUT',
       'body': 'นี่คือเนื้อหาที่แก้ไขด้วย HTTP PUT',
       'userId': 1,

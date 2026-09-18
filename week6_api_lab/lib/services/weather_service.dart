@@ -13,6 +13,16 @@ class WeatherService {
       : _client = client ?? http.Client();
 
   Future<Weather> fetchWeather(String city) async {
+    if (apiKey == 'YOUR_API_KEY') {
+      throw Exception(
+        'แอปยังไม่ได้รับ API Key — ปิดแอปแล้วรันใหม่ด้วย '
+        '--dart-define-from-file=dart_defines.local.json',
+      );
+    }
+    city = city.trim();
+    if (city.isEmpty) {
+      throw Exception('กรุณาพิมพ์ชื่อเมืองก่อนกดค้นหา');
+    }
     final uri = Uri.parse(
       '$_baseUrl?q=${Uri.encodeQueryComponent(city)}&appid=$apiKey&units=metric&lang=th',
     );

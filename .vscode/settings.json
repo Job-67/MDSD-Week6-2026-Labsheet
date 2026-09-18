@@ -1,0 +1,6 @@
+{
+  "dart.flutterAdditionalArgs": [
+    "--dart-define-from-file=dart_defines.local.json"
+  ],
+  "cmake.sourceDirectory": "E:/ApexCore/ApexDev/CodeWork/mobile/MDSD-Week6-2026-Labsheet/week6_api_lab/linux"
+}
