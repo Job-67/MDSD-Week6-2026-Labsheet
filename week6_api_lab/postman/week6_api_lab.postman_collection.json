@@ -1,0 +1,97 @@
+{
+  "info": {
+    "name": "Week6 API Lab",
+    "description": "ใบงานบทที่ 6 — ตั้งค่า collection variable `apiKey` เป็น OpenWeather API Key ของตัวเอง (อย่า commit ค่าจริง)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "apiKey", "value": "YOUR_API_KEY" }
+  ],
+  "item": [
+    {
+      "name": "1.1 OpenWeather - Bangkok (200)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "https://api.openweathermap.org/data/2.5/weather?q=Bangkok&appid={{apiKey}}&units=metric&lang=th",
+          "protocol": "https",
+          "host": ["api", "openweathermap", "org"],
+          "path": ["data", "2.5", "weather"],
+          "query": [
+            { "key": "q", "value": "Bangkok" },
+            { "key": "appid", "value": "{{apiKey}}" },
+            { "key": "units", "value": "metric" },
+            { "key": "lang", "value": "th" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "1.2a Error - city not found (expect 404)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "https://api.openweathermap.org/data/2.5/weather?q=NotARealCity123&appid={{apiKey}}&units=metric&lang=th",
+          "protocol": "https",
+          "host": ["api", "openweathermap", "org"],
+          "path": ["data", "2.5", "weather"],
+          "query": [
+            { "key": "q", "value": "NotARealCity123" },
+            { "key": "appid", "value": "{{apiKey}}" },
+            { "key": "units", "value": "metric" },
+            { "key": "lang", "value": "th" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "1.2b Error - wrong appid (expect 401)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "https://api.openweathermap.org/data/2.5/weather?q=Bangkok&appid=wrongkey&units=metric",
+          "protocol": "https",
+          "host": ["api", "openweathermap", "org"],
+          "path": ["data", "2.5", "weather"],
+          "query": [
+            { "key": "q", "value": "Bangkok" },
+            { "key": "appid", "value": "wrongkey" },
+            { "key": "units", "value": "metric" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "3.1 JSONPlaceholder POST (expect 201)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json; charset=UTF-8" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"ทดสอบส่งข้อมูลจาก Flutter\",\n  \"body\": \"นี่คือเนื้อหาที่ส่งด้วย HTTP POST\",\n  \"userId\": 1\n}"
+        },
+        "url": "https://jsonplaceholder.typicode.com/posts"
+      }
+    },
+    {
+      "name": "3.2 JSONPlaceholder PUT (expect 200)",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json; charset=UTF-8" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": 1,\n  \"studentId\": \"YOUR_STUDENT_ID\",\n  \"studentName\": \"YOUR_NAME\",\n  \"userId\": 1\n}"
+        },
+        "url": "https://jsonplaceholder.typicode.com/posts/1"
+      }
+    },
+    {
+      "name": "4 Fake Store - all products",
+      "request": { "method": "GET", "url": "https://fakestoreapi.com/products" }
+    },
+    {
+      "name": "4 Fake Store - product by id",
+      "request": { "method": "GET", "url": "https://fakestoreapi.com/products/1" }
+    }
+  ]
+}
