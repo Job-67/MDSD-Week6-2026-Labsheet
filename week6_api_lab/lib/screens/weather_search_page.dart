@@ -8,14 +8,16 @@ import '../services/weather_service_dio.dart';
 enum _ViewStatus { idle, loading, success, error }
 
 class WeatherSearchPage extends StatefulWidget {
-  const WeatherSearchPage({super.key});
+  final WeatherService? weatherService;
+
+  const WeatherSearchPage({super.key, this.weatherService});
 
   @override
   State<WeatherSearchPage> createState() => _WeatherSearchPageState();
 }
 
 class _WeatherSearchPageState extends State<WeatherSearchPage> {
-  final _weatherService = WeatherService();
+  late final _weatherService = widget.weatherService ?? WeatherService();
   final _cityController = TextEditingController();
 
   _ViewStatus _status = _ViewStatus.idle;

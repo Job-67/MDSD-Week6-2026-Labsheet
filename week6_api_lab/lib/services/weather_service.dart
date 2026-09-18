@@ -6,15 +6,19 @@ import '../models/weather.dart';
 
 class WeatherService {
   static const _baseUrl = 'https://api.openweathermap.org/data/2.5/weather';
-  static const _apiKey = openWeatherApiKey;
+  final String apiKey;
+  final http.Client _client;
+
+  WeatherService({this.apiKey = openWeatherApiKey, http.Client? client})
+      : _client = client ?? http.Client();
 
   Future<Weather> fetchWeather(String city) async {
     final uri = Uri.parse(
-      '$_baseUrl?q=${Uri.encodeQueryComponent(city)}&appid=$_apiKey&units=metric&lang=th',
+      '$_baseUrl?q=${Uri.encodeQueryComponent(city)}&appid=$apiKey&units=metric&lang=th',
     );
 
     try {
-      final response = await http.get(uri).timeout(const Duration(seconds: 10));
+      final response = await _client.get(uri).timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         return Weather.fromJson(jsonDecode(response.body));

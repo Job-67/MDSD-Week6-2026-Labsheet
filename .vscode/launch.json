@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "week6_api_lab",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "week6_api_lab",
+      "program": "lib/main.dart",
+      "toolArgs": [
+        "--dart-define-from-file=dart_defines.local.json"
+      ]
+    },
+    {
+      "name": "week6: test_weather_service",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "week6_api_lab",
+      "program": "lib/test_weather_service.dart"
+    },
+    {
+      "name": "week6: test_weather_dio",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "week6_api_lab",
+      "program": "lib/test_weather_dio.dart"
+    }
+  ]
+}

@@ -78,7 +78,23 @@ https://api.openweathermap.org/data/2.5/weather?q=Bangkok&appid=YOUR_API_KEY&uni
 > ✅ **Checkpoint 1.1** ถ่ายภาพหน้าจอ Postman ที่แสดง Status Code `200` พร้อม Response Body แบบเต็ม จากนั้นให้เขียนระบุใน ว่า key ใดใน JSON ที่คาดว่าจะต้องใช้แสดงผลในแอป (เช่น ชื่อเมือง, อุณหภูมิ, คำอธิบายสภาพอากาศ)
 
 ```text
-บันทึกรูปและคำตอบที่นี่
+[แนบรูป Postman: GET .../weather?q=Bangkok&appid=YOUR_API_KEY&units=metric&lang=th → 200 OK]
+
+Response Body:
+{"coord":{"lon":100.5167,"lat":13.75},
+ "weather":[{"id":802,"main":"Clouds","description":"เมฆกระจาย","icon":"03d"}],
+ "base":"stations",
+ "main":{"temp":31.5,"feels_like":38.5,"temp_min":29.94,"temp_max":31.63,
+         "pressure":1010,"humidity":70,"sea_level":1010,"grnd_level":1010},
+ "visibility":10000,"wind":{"speed":1.28,"deg":184,"gust":1.53},"clouds":{"all":41},
+ "dt":1789699168,"sys":{"type":2,"id":2112373,"country":"TH","sunrise":1789686417,"sunset":1789730264},
+ "timezone":25200,"id":1609350,"name":"กรุงเทพมหานคร","cod":200}
+
+key ที่ต้องใช้แสดงผลในแอป:
+- name                   → ชื่อเมือง (ระดับบนสุด)            = "กรุงเทพมหานคร"
+- main.temp              → อุณหภูมิ (ซ้อนใน object main)      = 31.5
+- main.feels_like        → อุณหภูมิที่รู้สึกจริง               = 38.5
+- weather[0].description → คำอธิบายสภาพอากาศ (weather เป็น List ต้องดึงตัวแรก) = "เมฆกระจาย"
 ```
 ### ขั้นตอนที่ 1.2 — 🧠 คิดเอง/ออกแบบเอง
 
@@ -87,7 +103,21 @@ https://api.openweathermap.org/data/2.5/weather?q=Bangkok&appid=YOUR_API_KEY&uni
 > ✅ **Checkpoint 1.2** บันทึกด้านล่างว่านักศึกษาเลือกทดสอบกรณีใด คาดการณ์ Status Code ไว้ว่าอะไร และ Status Code จริงที่ได้คืออะไร (ตรงหรือไม่ตรงกับที่คาดไว้) พร้อมอธิบายว่าผลลัพธ์ที่ได้ตรงกับช่วง Status Code ใดตามตารางในบทเรียนหัวข้อ 6.3
 
 ```text
-บันทึกรูปและคำตอบที่นี่
+[แนบรูป Postman ทั้ง 2 กรณี]
+
+กรณีที่ 1: เปลี่ยนชื่อเมืองเป็นชื่อที่ไม่มีอยู่จริง (q=NotARealCity123)
+- คาดการณ์ก่อนกด Send : 404 Not Found (ขอ Resource ที่ไม่มีอยู่)
+- ผลจริง              : 404 → {"cod":"404","message":"city not found"}
+- ตรงกับที่คาดไว้ ✅
+
+กรณีที่ 2: ใส่ appid ผิด (appid=wrongkey)
+- คาดการณ์ก่อนกด Send : 401 Unauthorized (ยืนยันตัวตนไม่ผ่าน)
+- ผลจริง              : 401 → {"cod":401,"message":"Invalid API key. ..."}
+- ตรงกับที่คาดไว้ ✅ (ถ้าลบ appid ออกไปเลย ก็ได้ 401 ข้อความเดียวกัน)
+
+ช่วง Status Code: ทั้ง 404 และ 401 อยู่ในช่วง 4xx = Client Error
+คือความผิดพลาดเกิดจากคำขอฝั่ง Client (ชื่อเมืองผิด / Key ผิด) ไม่ใช่เซิร์ฟเวอร์มีปัญหา (5xx)
+ต่างจาก 200 ในขั้นตอนที่ 1.1 ซึ่งอยู่ในช่วง 2xx = สำเร็จ
 ```
 ---
 
@@ -233,7 +263,18 @@ class WeatherService {
 > ✅ **Checkpoint 2.2** บันทึกผลการตรวจสอบ `statusCode` อย่างน้อย 2 กรณี (สำเร็จ และ 404) ตามเกณฑ์ข้างต้น
 
 ```text
-บันทึกรูปและคำตอบที่นี่
+[แนบรูป Debug Console จากการรัน dart run lib/test_weather_service.dart]
+
+กรณีที่ 1 สำเร็จ (statusCode == 200) — q=Bangkok
+[Bangkok] สำเร็จ: กรุงเทพมหานคร 30.62°C เมฆกระจาย
+→ เข้าเงื่อนไข statusCode == 200 แล้วแปลงข้อมูลด้วย Weather.fromJson
+
+กรณีที่ 2 ไม่พบเมือง (statusCode == 404) — q=NotARealCity123
+[NotARealCity123] ผิดพลาด: Exception: ไม่พบเมือง "NotARealCity123" กรุณาตรวจสอบชื่อเมืองอีกครั้ง
+→ เข้าเงื่อนไข statusCode == 404 ที่เพิ่มเอง แสดงข้อความภาษาไทยแทน error ดิบจากระบบ
+
+(เพิ่มเติม) กรณี API Key ผิด (statusCode == 401)
+→ Exception: API Key ไม่ถูกต้องหรือยังไม่เปิดใช้งาน
 ```
 
 ### ขั้นตอนที่ 2.4 — 🧠 คิดเอง/ออกแบบเอง

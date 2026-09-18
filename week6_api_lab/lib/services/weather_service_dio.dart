@@ -2,7 +2,10 @@ import 'package:dio/dio.dart';
 import '../config/api_config.dart';
 import '../models/weather.dart';
 
-Future<Weather> fetchWeatherWithDio(String city) async {
+Future<Weather> fetchWeatherWithDio(
+  String city, {
+  String apiKey = openWeatherApiKey,
+}) async {
   final dio = Dio(BaseOptions(
     connectTimeout: const Duration(seconds: 10),
     receiveTimeout: const Duration(seconds: 10),
@@ -14,7 +17,7 @@ Future<Weather> fetchWeatherWithDio(String city) async {
       'https://api.openweathermap.org/data/2.5/weather',
       queryParameters: {
         'q': city,
-        'appid': openWeatherApiKey,
+        'appid': apiKey,
         'units': 'metric',
         'lang': 'th',
       },
