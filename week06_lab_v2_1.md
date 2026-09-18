@@ -27,6 +27,13 @@
 
 ---
 
+## Branch โค้ดโปรเจกต์
+
+- **campus_marketplace**: https://github.com/Job-67/MDSD-Week6-2026-Labsheet/tree/campus_marketplace
+- **week6_api_lab**: https://github.com/Job-67/MDSD-Week6-2026-Labsheet/tree/week6_api_lab
+
+---
+
 ## ทฤษฎีที่จำเป็นก่อนการทดลอง
 ### เครือข่ายและ REST API 
 
