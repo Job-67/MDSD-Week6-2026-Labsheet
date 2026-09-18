@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'models/item.dart';
 import 'models/favorites_model.dart';
+import 'models/cart_model.dart';
 import 'repositories/item_repository.dart';
 import 'widgets/item_list_section.dart';
 import 'favorites_page.dart';
+import 'cart_page.dart';
 
 class HomePage extends StatefulWidget {
   final ItemRepository repository;
@@ -48,6 +50,20 @@ class _HomePageState extends State<HomePage> {
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const FavoritesPage()),
+            ),
+          ),
+          IconButton(
+            icon: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.shopping_cart),
+                // .watch ทำให้ตัวเลขนี้อัปเดตเองทุกครั้งที่ CartModel เปลี่ยน ไม่ว่าจะเปลี่ยนจากจุดไหน
+                Text(' ${context.watch<CartModel>().itemCount}'),
+              ],
+            ),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const CartPage()),
             ),
           ),
         ],
